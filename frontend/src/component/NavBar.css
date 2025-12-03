@@ -1,0 +1,81 @@
+/* Navbar Container */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  background: linear-gradient(90deg, #1f1c2c, #928dab);
+  padding: 12px 28px;
+
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+/* Logo */
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  letter-spacing: 1px;
+  cursor: pointer;
+}
+
+/* Links List */
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+/* Link styles */
+.nav-links a {
+  color: #ffffff;
+  font-size: 1.1rem;
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+
+  transition: 0.25s ease-in-out;
+}
+
+/* Hover Animation */
+.nav-links a:hover {
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+/* Active Route (optional) */
+.nav-links a.active {
+  background: rgba(255,255,255,0.3);
+  font-weight: bold;
+}
+
+/* Mobile Responsive */
+@media (max-width: 600px) {
+  .navbar {
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .nav-links {
+    margin-top: 10px;
+    gap: 16px;
+  }
+}
+  
+.nav-count-badge {
+  background-color:lightseagreen;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 6px;
+  border-radius: 50%;
+  margin-left: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+}
