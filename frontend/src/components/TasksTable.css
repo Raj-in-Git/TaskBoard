@@ -10,47 +10,76 @@ h3 {
 /* ------------------------------
    Table Styling
 --------------------------------*/
+/* ================= TABLE ================= */
 table {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-  background: #ffffff;
-  border-radius: 8px;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: white;
+  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
 }
 
+/* HEADER */
 thead {
-  background: #2f3640;
-  color: #fff;
+  background: #34495e;
 }
 
 th {
-  padding: 12px 14px;
+  padding: 14px 18px;
   text-align: left;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
+  color: #ffffff;
 }
 
+/* BODY */
 td {
-  padding: 10px 14px;
+  padding: 14px 18px;
   font-size: 14px;
   color: #333;
+  vertical-align: middle;
 }
 
+/* ROW STYLE */
 tbody tr {
-  border-bottom: 1px solid #e8e8e8;
-  transition: background 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+  transition: all 0.2s ease;
 }
 
 tbody tr:hover {
-  background: #f1f1f1;
+  background: #f9fbfd;
 }
 
+/* ALTERNATE ROWS */
 tbody tr:nth-child(even) {
   background: #fafafa;
 }
 
+/* ================= COLUMN IMPROVEMENTS ================= */
+
+/* Project column */
+td:first-child {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+/* Task link */
+td a {
+  color: #1976d2;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+td a:hover {
+  text-decoration: underline;
+}
+
+/* Details column */
+td:last-child {
+  color: #555;
+}
 /* Column width control */
 th:nth-child(1),
 td:nth-child(1) {
@@ -64,12 +93,12 @@ td:nth-child(2) {
 
 th:nth-child(3),
 td:nth-child(3) {
-  width: 50%; /* Updates column */
+  width: 13%; /* Updates column */
 }
 
 th:nth-child(4),
 td:nth-child(4) {
-  width: 13%; /* Efforts column */
+  width: 40%; /* Efforts column */
 }
 
 /* ------------------------------
@@ -77,8 +106,8 @@ td:nth-child(4) {
 --------------------------------*/
 .add-btn {
   position: fixed;
-  bottom: 100px;
-  right: 20px;
+  bottom: 50px;
+  right: 50px;
   padding: 12px 18px;
   background: #007bff;
   color: white;
