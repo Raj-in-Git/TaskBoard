@@ -1,0 +1,59 @@
+SQL Table Query
+
+Create table TaskBoard;
+CREATE TABLE Roles (
+    roleID INT IDENTITY(1,1) PRIMARY KEY,
+    roleName VARCHAR(50) NOT NULL
+);
+
+CREATE TABLE Users (
+    userID INT IDENTITY(1,1) PRIMARY KEY,
+    username VARCHAR(100) NOT NULL,
+    roleID INT,
+    firstName VARCHAR(100),
+    lastName VARCHAR(100),
+    mobileNumber VARCHAR(15),
+    email VARCHAR(150),
+    FOREIGN KEY (roleID) REFERENCES Roles(roleID)
+);
+
+CREATE TABLE Projects (
+    projectID INT IDENTITY(1,1) PRIMARY KEY,
+    projectName VARCHAR(200) NOT NULL,
+    projectDescription VARCHAR(500),
+    status VARCHAR(50) DEFAULT 'Active',
+    startDate DATETIME DEFAULT GETDATE(),
+    completedDate DATETIME,
+    remarks VARCHAR(200)
+);
+
+CREATE TABLE UserProjects (
+    userID INT,
+    projectID INT,
+    PRIMARY KEY (userID, projectID),
+    FOREIGN KEY (userID) REFERENCES Users(userID),
+    FOREIGN KEY (projectID) REFERENCES Projects(projectID)
+);
+
+CREATE TABLE Tasks (
+    taskID INT IDENTITY(1,1) PRIMARY KEY,
+    projectID INT,
+    assignedTo INT,
+    taskName VARCHAR(200) NOT NULL,
+    taskDescription VARCHAR(500),
+    status VARCHAR(50) DEFAULT 'Open',
+    startDate DATETIME DEFAULT GETDATE(),
+    completedDate DATETIME,
+    remarks VARCHAR(200),
+    FOREIGN KEY (projectID) REFERENCES Projects(projectID),
+    FOREIGN KEY (assignedTo) REFERENCES Users(userID)
+);
+
+CREATE TABLE Updates (
+    updateID INT IDENTITY(1,1) PRIMARY KEY,
+    taskID INT,
+    updates VARCHAR(1000),
+    efforts INT,  -- hours spent
+    updateDate DATETIME DEFAULT GETDATE(),
+    FOREIGN KEY (taskID) REFERENCES Tasks(taskID)
+);
