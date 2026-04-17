@@ -2,11 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import API from "../api/axios";
 import "./NavBar.css";
+import { getUser } from "../auth/auth";
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"></link>
 
-function NavBar({ effortPercent }) {
+
+function NavBar() {
   const [activeTasks, setActiveTasks] = useState(0);
   const [activeProjects, setActiveProjects] = useState(0);
   const [updates, setUpdates] = useState([]);
+  const user = getUser();
 
   // ✅ Fetch data once
   useEffect(() => {
@@ -41,8 +45,7 @@ function NavBar({ effortPercent }) {
   })
   .reduce((sum, item) => sum + Number(item.efforts || 0), 0);
 
-const todayProductivity = Math.min((todayEffort / 8) * 100, 100).toFixed(0);
-
+  const todayProductivity = Math.round(Math.min((todayEffort / 8) * 100, 100).toFixed(0));
 
 
   const hour = new Date().getHours();
@@ -61,12 +64,12 @@ const todayProductivity = Math.min((todayEffort / 8) * 100, 100).toFixed(0);
       <div className="nav-logo">
         TaskBoard
         <div className="nav-subtitle">
-          {greeting}, <span className="username">Rajesh</span> 👋
+          {greeting}, <span className="username"><b>{user?.username}</b></span> 👋
         </div>
       </div>
 
       <ul className="nav-links">
-        <li><Link to="/home">Home</Link></li>
+        <li><Link to="/dashboard">Home</Link></li>
 
         <li>
           <Link to="/efforts">
@@ -74,11 +77,11 @@ const todayProductivity = Math.min((todayEffort / 8) * 100, 100).toFixed(0);
             <span className="nav-count-badge"
               style={{
                 backgroundColor:
-                  effortPercent < 50 ? "#f44336" :
-                  effortPercent < 80 ? "#ff9800" :
+                  todayProductivity < 50 ? "#f44336" :
+                  todayProductivity < 80 ? "#ff9800" :
                   "#4caf50"
               }}>
-              {effortPercent ?? 0}%
+              {todayProductivity ?? 0}%
             </span>
           </Link>
         </li>
@@ -99,8 +102,8 @@ const todayProductivity = Math.min((todayEffort / 8) * 100, 100).toFixed(0);
           </Link>
         </li>
       </ul>
-
-      <button onClick={handleLogout}>Logout</button>
+      <span className="nav-subtitle">{user?.roleID === 1 ? "Admin" : "User"}</span>
+      <button className="logout-btn" onClick={handleLogout}>🔓 Logout</button>
     </nav>
   );
 }

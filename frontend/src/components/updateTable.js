@@ -384,7 +384,7 @@ const exportToExcel = () => {
               />
             </div>
             <div className="modal-actions">
-              <button className="save-btn">Save</button>
+              <button className="save-btn" onClick={handleSubmitUpdate}>Save</button>
               <button  className="cancel-btn"  onClick={() => setShowForm(false)}>
                 Cancel
               </button>

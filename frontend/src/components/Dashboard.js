@@ -72,13 +72,6 @@ const todayEffort = (updates || [])
 const todayProductivity = Math.round(Math.min((todayEffort / 8) * 100, 100)
 );
 
-// Update Navbar
-useEffect(() => {
-  if (updates.length > 0) {
-    setEffortPercent(todayProductivity.toFixed(0));
-  }
-}, [updates, todayProductivity]);
-
   // -----------------------------
   // UI
   // -----------------------------

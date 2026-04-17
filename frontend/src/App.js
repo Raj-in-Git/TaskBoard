@@ -1,58 +1,64 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import React, { useState } from "react";
-
 import NavBar from "./components/NavBar";
 import TasksTable from "./components/TasksTable";
 import UpdateTable from "./components/updateTable";
 import ProjectsTable from "./components/ProjectsTable";
 import Dashboard from "./components/Dashboard";
 import Login from "./pages/Login";
+import Users from "./pages/Users";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import "./App.css";
 
 function App() {
-  const [effortPercent, setEffortPercent] = useState(0);
-
   const isLoggedIn = localStorage.getItem("token");
 
   return (
     <Router>
 
-      {/* ✅ Show Navbar only after login */}
-      {isLoggedIn && <NavBar effortPercent={effortPercent} />}
+      {/* ✅ Navbar only after login */}
+      {isLoggedIn && <NavBar />}
 
       <Routes>
 
         {/* 🔐 Login */}
         <Route path="/" element={<Login />} />
 
-        {/* 🔐 Protected Routes */}
-        <Route path="/home" element={
+        {/* 🔐 Dashboard (no role restriction) */}
+        <Route path="/dashboard" element={
           <ProtectedRoute>
-            <Dashboard setEffortPercent={setEffortPercent} />
+            <Dashboard />
           </ProtectedRoute>
         } />
 
+        {/* 🔥 Efforts (ALL roles allowed) */}
         <Route path="/efforts" element={
-          <ProtectedRoute>
+          <ProtectedRoute module="efforts">
             <UpdateTable />
           </ProtectedRoute>
         } />
 
+        {/* 🔥 Tasks (Manager + Team Lead) */}
         <Route path="/tasks" element={
-          <ProtectedRoute>
+          <ProtectedRoute module="tasks">
             <TasksTable />
           </ProtectedRoute>
         } />
 
+        {/* 🔥 Projects (Admin + Manager) */}
         <Route path="/projects" element={
-          <ProtectedRoute>
+          <ProtectedRoute module="projects">
             <ProjectsTable />
           </ProtectedRoute>
         } />
-
-      </Routes>
+        <Route
+          path="/users"
+          element={
+            <ProtectedRoute module="users">
+              <Users />
+            </ProtectedRoute>
+        }/>
+      </Routes>     
     </Router>
   );
 }

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./TasksTable.css";
 import API from "../api/axios";
+import { canPerform } from "../utils/permissions";
 
 function ProjectsTable() {
+
+  // ✅ ALL HOOKS AT TOP (IMPORTANT)
   const [projects, setProjects] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -47,6 +50,11 @@ function ProjectsTable() {
       return;
     }
 
+    if (!canPerform("projects", "create")) {
+      alert("No permission to create project");
+      return;
+    }
+
     try {
       await API.post("/projects/", newProject);
 
@@ -83,6 +91,11 @@ function ProjectsTable() {
   // UPDATE PROJECT
   // -----------------------------
   const handleSave = async () => {
+    if (!canPerform("projects", "edit")) {
+      alert("No permission to edit");
+      return;
+    }
+
     try {
       await API.put(`/projects/${selectedProject.ProjectID}`, formData);
 
@@ -101,6 +114,11 @@ function ProjectsTable() {
   // -----------------------------
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this project?")) return;
+
+    if (!canPerform("projects", "delete")) {
+      alert("No permission to delete");
+      return;
+    }
 
     try {
       const res = await API.delete(`/projects/${id}`);
@@ -121,10 +139,14 @@ function ProjectsTable() {
     <div className="task-container">
       <h3>Projects</h3>
 
-      <button className="add-btn" onClick={() => setShowForm(true)}>
-        + Add Project
-      </button>
+      {/* ✅ CREATE BUTTON */}
+      {canPerform("projects", "create") && (
+        <button className="add-btn" onClick={() => setShowForm(true)}>
+          + Add Project
+        </button>
+      )}
 
+      {/* TABLE */}
       <div className="table-wrapper">
         <table>
           <thead>
@@ -135,10 +157,11 @@ function ProjectsTable() {
           </thead>
 
           <tbody>
-            {(projects || []).map((p) => (
+            {projects.map((p) => (
               <tr key={p.ProjectID}>
-                <td >
-                  <a className="project-badge"
+                <td>
+                  <a
+                    className="project-badge"
                     href="#"
                     onClick={(e) => {
                       e.preventDefault();
@@ -197,14 +220,19 @@ function ProjectsTable() {
                 <p>{selectedProject.Description}</p>
 
                 <div className="modal-actions">
-                  <button onClick={() => setIsEditing(true)}>Edit</button>
 
-                  <button
-                    onClick={() => handleDelete(selectedProject.ProjectID)}
-                    style={{ backgroundColor: "red" }}
-                  >
-                    Delete
-                  </button>
+                  {canPerform("projects", "edit") && (
+                    <button onClick={() => setIsEditing(true)}>Edit</button>
+                  )}
+
+                  {canPerform("projects", "delete") && (
+                    <button
+                      onClick={() => handleDelete(selectedProject.ProjectID)}
+                      style={{ backgroundColor: "red" }}
+                    >
+                      Delete
+                    </button>
+                  )}
 
                   <button onClick={() => setSelectedProject(null)}>
                     Close

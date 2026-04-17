@@ -1,24 +1,29 @@
 import { Link } from "react-router-dom";
-import { getRole, logoutUser } from "../auth/auth";
+import { getRoleName, logoutUser } from "../auth/auth";
+import { hasAccess } from "../utils/permissions";
 
 function Sidebar() {
-  const role = getRole();
+  const role = getRoleName();
 
   return (
-    <div style={{
-      width: "220px",
-      background: "#1e293b",
-      color: "white",
-      height: "100vh",
-      padding: "15px"
-    }}>
+    <div style={containerStyle}>
       <h2>TaskBoard</h2>
 
       <Link to="/dashboard" style={linkStyle}>Dashboard</Link>
-      <Link to="/projects" style={linkStyle}>Projects</Link>
-      <Link to="/tasks" style={linkStyle}>Tasks</Link>
 
-      {role == 1 && (
+      {hasAccess("projects") && (
+        <Link to="/projects" style={linkStyle}>Projects</Link>
+      )}
+
+      {hasAccess("tasks") && (
+        <Link to="/tasks" style={linkStyle}>Tasks</Link>
+      )}
+
+      {hasAccess("efforts") && (
+        <Link to="/efforts" style={linkStyle}>Efforts</Link>
+      )}
+
+      {hasAccess("users") && (
         <Link to="/users" style={linkStyle}>Users</Link>
       )}
 
@@ -26,6 +31,14 @@ function Sidebar() {
     </div>
   );
 }
+
+const containerStyle = {
+  width: "220px",
+  background: "#1e293b",
+  color: "white",
+  height: "100vh",
+  padding: "15px"
+};
 
 const linkStyle = {
   display: "block",

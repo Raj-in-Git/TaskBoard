@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./TasksTable.css";
 import API from "../api/axios";
+import { canPerform } from "../utils/permissions";
 
 function TasksTable() {
   const [tasks, setTasks] = useState([]);
@@ -137,10 +138,12 @@ function TasksTable() {
   // -----------------------------
   return (
     <div className="task-container">
-
-      <button className="add-btn" onClick={() => setShowForm(true)}>
-        + Add Task
-      </button>
+      {/* ✅ CREATE BUTTON */}
+            {canPerform("tasks", "create") && (
+              <button className="add-btn" onClick={() => setShowForm(true)}>
+                + Add Task
+              </button>
+            )}
 
       {/* ---------------- ACTIVE TASKS ---------------- */}
       <div className="header">
