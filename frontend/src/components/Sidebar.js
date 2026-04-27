@@ -1,56 +1,67 @@
-import { Link } from "react-router-dom";
-import { getRoleName, logoutUser } from "../auth/auth";
-import { hasAccess } from "../utils/permissions";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import "./Sidebar.css";
 
-function Sidebar() {
-  const role = getRoleName();
+const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const location = useLocation();
+  const [openMenu, setOpenMenu] = useState(null);
+
+  const toggleMenu = (menu) => {
+    setOpenMenu(openMenu === menu ? null : menu);
+  };
 
   return (
-    <div style={containerStyle}>
-      <h2>TaskBoard</h2>
+    <>
+      {/* Overlay */}
+      {isOpen && <div className="overlay" onClick={toggleSidebar}></div>}
 
-      <Link to="/dashboard" style={linkStyle}>Dashboard</Link>
+      <div className={`sidebar ${isOpen ? "open" : ""}`}>
+        <h2 className="logo">TaskBoard</h2>
 
-      {hasAccess("projects") && (
-        <Link to="/projects" style={linkStyle}>Projects</Link>
-      )}
+        <ul>
+          <li className={location.pathname === "/dashboard" ? "active" : ""}>
+            <Link to="/dashboard">Dashboard</Link>
+          </li>x
 
-      {hasAccess("tasks") && (
-        <Link to="/tasks" style={linkStyle}>Tasks</Link>
-      )}
+          <li className={location.pathname === "/projects" ? "active" : ""}>
+            <Link to="/projects">Projects</Link>
+          </li>
 
-      {hasAccess("efforts") && (
-        <Link to="/efforts" style={linkStyle}>Efforts</Link>
-      )}
+          <li className={location.pathname === "/tasks" ? "active" : ""}>
+            <Link to="/tasks">Tasks</Link>
+          </li>
 
-      {hasAccess("users") && (
-        <Link to="/users" style={linkStyle}>Users</Link>
-      )}
+          {/* ✅ Users Dropdown */}
+          <li className="dropdown">
+            <div className="dropdown-header" onClick={() => toggleMenu("users")}>
+              Users
+              <span>{openMenu === "users" ? "▲" : "▼"}</span>
+            </div>
 
-      <button onClick={logoutUser} style={btnStyle}>Logout</button>
-    </div>
+            {openMenu === "users" && (
+              <ul className="submenu">
+                <li>
+                  <Link to="/users" onClick={toggleSidebar}>
+                    Create User
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/users/view" onClick={toggleSidebar}>
+                    View Users
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/users/edit" onClick={toggleSidebar}>
+                    Edit User
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+        </ul>
+      </div>
+    </>
   );
-}
-
-const containerStyle = {
-  width: "220px",
-  background: "#1e293b",
-  color: "white",
-  height: "100vh",
-  padding: "15px"
-};
-
-const linkStyle = {
-  display: "block",
-  color: "white",
-  margin: "10px 0",
-  textDecoration: "none"
-};
-
-const btnStyle = {
-  marginTop: "20px",
-  padding: "10px",
-  width: "100%"
 };
 
 export default Sidebar;

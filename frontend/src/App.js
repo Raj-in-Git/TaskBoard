@@ -7,6 +7,8 @@ import Dashboard from "./components/Dashboard";
 import Login from "./pages/Login";
 import Users from "./pages/Users";
 import ProtectedRoute from "./components/ProtectedRoute";
+import Layout from "./components/Layout";
+// import Roles from "./pages/Roles";
 
 import "./App.css";
 
@@ -15,11 +17,8 @@ function App() {
 
   return (
     <Router>
-
-      {/* ✅ Navbar only after login */}
-      {isLoggedIn && <NavBar />}
-
-      <Routes>
+      <Layout>
+        <Routes>
 
         {/* 🔐 Login */}
         <Route path="/" element={<Login />} />
@@ -58,7 +57,11 @@ function App() {
               <Users />
             </ProtectedRoute>
         }/>
-      </Routes>     
+        <Route path="/users" element={<Users />} />
+        {/* <Route path="/users/view" element={<UsersList />} />
+        <Route path="/users/edit" element={<EditUser />} /> */}
+      </Routes>  
+      </Layout>   
     </Router>
   );
 }

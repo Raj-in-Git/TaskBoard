@@ -34,7 +34,7 @@
   list-style: none;
   display: flex;
   gap: 25px;
-  margin-left: 600px;
+  margin-left: 400px;
 }
 
 /* Link styles */
@@ -111,6 +111,18 @@
   box-shadow: 0 4px 10px rgba(239,68,68,0.3);
 }
 
+.menu-btn {
+  font-size: 20px;
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.menu-btn:hover {
+  color: #38bdf8;
+}
 
 
 

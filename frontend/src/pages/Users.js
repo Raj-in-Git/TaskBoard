@@ -1,6 +1,7 @@
 import { useState } from "react";
 import API from "../api/axios";
 import { canPerform } from "../utils/permissions";
+import "./Users.css";
 
 function Users() {
   const [form, setForm] = useState({
@@ -21,7 +22,6 @@ function Users() {
 
     try {
       await API.post("/users", form);
-
       alert("User created successfully");
 
       setForm({
@@ -33,64 +33,77 @@ function Users() {
         roleID: "",
         password: ""
       });
-
     } catch (err) {
-      console.error(err);
       alert("Failed to create user");
     }
   };
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h2>Create User</h2>
+    <div className="users-container">
+      <div className="users-card">
+        <h2>Create User</h2>
 
-      <input placeholder="Username"
-        value={form.username}
-        onChange={(e) => setForm({...form, username: e.target.value})}
-      />
+        <div className="form-group">
+          <label>Username</label>
+          <input value={form.username}
+            onChange={(e) => setForm({...form, username: e.target.value})}
+          />
+        </div>
 
-      <input placeholder="First Name"
-        value={form.firstName}
-        onChange={(e) => setForm({...form, firstName: e.target.value})}
-      />
+        <div className="form-group">
+          <label>First Name</label>
+          <input value={form.firstName}
+            onChange={(e) => setForm({...form, firstName: e.target.value})}
+          />
+        </div>
 
-      <input placeholder="Last Name"
-        value={form.lastName}
-        onChange={(e) => setForm({...form, lastName: e.target.value})}
-      />
+        <div className="form-group">
+          <label>Last Name</label>
+          <input value={form.lastName}
+            onChange={(e) => setForm({...form, lastName: e.target.value})}
+          />
+        </div>
 
-      <input placeholder="Email"
-        value={form.email}
-        onChange={(e) => setForm({...form, email: e.target.value})}
-      />
+        <div className="form-group">
+          <label>Email</label>
+          <input value={form.email}
+            onChange={(e) => setForm({...form, email: e.target.value})}
+          />
+        </div>
 
-      <input placeholder="Mobile Number"
-        value={form.mobileNumber}
-        onChange={(e) => setForm({...form, mobileNumber: e.target.value})}
-      />
+        <div className="form-group">
+          <label>Mobile Number</label>
+          <input value={form.mobileNumber}
+            onChange={(e) => setForm({...form, mobileNumber: e.target.value})}
+          />
+        </div>
 
-      <input type="password" placeholder="Password"
-        value={form.password}
-        onChange={(e) => setForm({...form, password: e.target.value})}
-      />
+        <div className="form-group">
+          <label>Password</label>
+          <input type="password"
+            value={form.password}
+            onChange={(e) => setForm({...form, password: e.target.value})}
+          />
+        </div>
 
-      {/* Role Dropdown */}
-      <select
-        value={form.roleID}
-        onChange={(e) => setForm({...form, roleID: e.target.value})}
-      >
-        <option value="">Select Role</option>
-        <option value="1">Admin</option>
-        <option value="2">Manager</option>
-        <option value="3">Team Lead</option>
-        <option value="4">Team Member</option>
-      </select>
+        <div className="form-group">
+          <label>Role</label>
+          <select
+            value={form.roleID}
+            onChange={(e) => setForm({...form, roleID: e.target.value})}
+          >
+            <option value="">Select Role</option>
+            <option value="1">Admin</option>
+            <option value="2">Manager</option>
+            <option value="3">Team Lead</option>
+            <option value="4">Team Member</option>
+          </select>
+        </div>
 
-      <br /><br />
-
-      <button onClick={handleCreateUser}>
-        Create User
-      </button>
+        <button className="create-btn" onClick={handleCreateUser}>
+          Create User
+        </button>
+      </div>
     </div>
   );
 }
